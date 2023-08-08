@@ -1,5 +1,4 @@
 import { createElement, Fragment, useEffect, useRef, useMemo } from 'react';
-import { createRoot } from 'react-dom/client';
 import { Footer } from './Footer';
 import { PreviewPanel } from './PreviewPanel';
 import { getTitle } from '../utils/getTitle';
@@ -95,7 +94,7 @@ function Autocomplete(props: any) {
           rootRef.current = root;
 
           panelRootRef.current?.unmount();
-          panelRootRef.current = createRoot(root);
+          panelRootRef.current = root;
         }
 
         if (state?.query?.length > 0) {
@@ -112,7 +111,7 @@ function Autocomplete(props: any) {
                 </div>
                 <Footer />
               </div>
-            );
+            , root);
 
             return;
           }
@@ -132,11 +131,11 @@ function Autocomplete(props: any) {
                 <Footer />
               </div>
               </Fragment>,
-          );
+          root);
         } else {
           panelRootRef.current.render(
             <></>
-          );
+          , root);
 
           collapseResults.hide();
           return;
