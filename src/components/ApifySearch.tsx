@@ -10,6 +10,7 @@ import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
 import { ResultsItems } from './ResultsItems';
+import { render } from 'react-dom';
 
 const collapseResults = (() => {
   return {
@@ -24,8 +25,6 @@ const collapseResults = (() => {
 
 function Autocomplete(props: any) {
   const containerRef = useRef<any>(null);
-  const panelRootRef = useRef<any>(null);
-  const rootRef = useRef<any>(null);
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -34,7 +33,7 @@ function Autocomplete(props: any) {
 
     const search = autocomplete({
       container: containerRef.current,
-      renderer: { createElement, Fragment, render: () => {} },
+      renderer: { createElement, Fragment, render },
       defaultActiveItemId: 0,
       detachedMediaQuery: '',
       placeholder: 'Search Apify Docs...',
@@ -89,20 +88,13 @@ function Autocomplete(props: any) {
           }
         },
       ],
-      render({ state, components, Fragment, setContext, setActiveItemId }, root) {
-        if (!panelRootRef.current || rootRef.current !== root) {
-          rootRef.current = root;
-
-          panelRootRef.current?.unmount();
-          panelRootRef.current = root;
-        }
-
+      render({ state, components, Fragment, setContext, setActiveItemId, render }, root) {
         if (state?.query?.length > 0) {
 
           collapseResults.show();
 
           if ( state?.collections?.[0].items.length === 0 ) {
-            panelRootRef.current.render(
+            return (
               <div className='flex flex-col h-full'>
                 <div className="flex flex-col justify-center items-center flex-1">
                     <div className='text-slate-400 font-medium text-lg px-3 py-1'>
@@ -111,15 +103,13 @@ function Autocomplete(props: any) {
                 </div>
                 <Footer />
               </div>
-            , root);
-
-            return;
+            );
           }
 
           let { preview } = state.context as any;
           preview = {...preview, name: getTitle(preview)}
 
-          panelRootRef.current.render(
+          return (
             <Fragment>
               <div className="flex flex-col h-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 flex-1 overflow-hidden">
@@ -130,15 +120,14 @@ function Autocomplete(props: any) {
                 </div>
                 <Footer />
               </div>
-              </Fragment>,
-          root);
+              </Fragment>
+          );
         } else {
-          panelRootRef.current.render(
-            <></>
-          , root);
-
           collapseResults.hide();
-          return;
+
+          return (
+            <></>
+          );
         }
       },
       ...props,
