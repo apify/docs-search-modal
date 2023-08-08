@@ -87,7 +87,7 @@ export function PreviewPanel({ preview, components }: { preview: any, components
               }</p>
             } else {
               return <div className='mb-3 px-3 bg-slate-100 py-3 rounded-l' key={i}>
-                <code className="select-all">
+                <code className="select-all border-0 p-0">
                   <SyntaxHighlighter language={block.lang} style={ prism } customStyle={{background: 'rgba(0,0,0,0)', 'padding': '0px', 'margin' : '0px'}}>    
                     {block.value}
                   </SyntaxHighlighter>
