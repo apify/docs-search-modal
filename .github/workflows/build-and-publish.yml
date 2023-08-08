@@ -25,6 +25,6 @@ jobs:
       run: yarn build
 
     - name: Publish to NPM
-      run: yarn publish
+      run: npm publish
       env:
-        npmAuthToken: ${{ secrets.APIFY_SERVICE_ACCOUNT_NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.APIFY_SERVICE_ACCOUNT_NPM_TOKEN }}
