@@ -1,0 +1,37 @@
+{
+  "name": "@apify/docs-search-modal",
+  "version": "1.0.0",
+  "description": "A custom implementation of the modal search for Apify Docs.",
+  "author": "Jindřich Bär",
+  "license": "ISC",
+  "dependencies": {
+    "@algolia/autocomplete-js": "^1.10.0",
+    "@algolia/autocomplete-theme-classic": "^1.10.0",
+    "algoliasearch": "^4.19.1",
+    "html-entities": "^2.4.0",
+    "react-icons": "^4.10.1",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "@types/node": "^20.4.8",
+    "rimraf": "^5.0.1",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "yarn clean && tsc && npx tailwindcss -i ./src/index.css -o ./dist/index.css && cp -r ./dist ../test-app/src/"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
