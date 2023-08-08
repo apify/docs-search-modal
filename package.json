@@ -23,7 +23,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "yarn clean && tsc && npx tailwindcss -i ./src/index.css -o ./dist/index.css && cp -r ./dist ../test-app/src/"
+    "build": "yarn clean && tsc && npx tailwindcss -i ./src/index.css -o ./dist/index.css"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
