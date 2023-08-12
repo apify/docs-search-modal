@@ -97,7 +97,7 @@ function Autocomplete(props: any) {
 
           if ( state?.collections?.[0].items.length === 0 ) {
             return render (
-              <div className='flex flex-col h-full'>
+              <div className='flex flex-col h-full bg-white dark:bg-slate-800'>
                 <div className="flex flex-col justify-center items-center flex-1">
                     <div className='text-slate-400 font-medium text-lg px-3 py-1'>
                       No results :(
@@ -113,7 +113,7 @@ function Autocomplete(props: any) {
 
           return render (
             <Fragment>
-              <div className="flex flex-col h-full">
+              <div className="flex flex-col h-full bg-white dark:bg-slate-800">
                 <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 flex-1 overflow-hidden">
                   <div className="h-full overflow-y-scroll">
                     <ResultsItems {...{items: state?.collections?.[0]?.items, setActiveItemId, setContext, state, components }} />
