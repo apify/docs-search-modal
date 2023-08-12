@@ -89,7 +89,7 @@ export function PreviewPanel({ preview, components }: { preview: any, components
               }</p>
             } else {
               return <div className='mb-3 px-3 bg-slate-100 dark:bg-slate-800 py-3 rounded-l box-border' key={i}>
-                <code className="select-all border-0 p-0">
+                <code className="select-all border-none p-0">
                   <SyntaxHighlighter 
                     language={block.lang} 
                     style={ document.querySelector('[data-theme="dark"]') ? darcula : prism } 
