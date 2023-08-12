@@ -110,15 +110,14 @@ export function PreviewPanel({ preview, components }: { preview: any, components
         }
       </div>
       {
-        preview.toc?.length && preview.toc.length > 0 &&
+        (preview.toc?.length) && (preview.toc.length > 0) ?
         (
         <div className='px-6' key="toc">
             <div className='text-slate-600 dark:text-slate-200 font-normal'>
               On this page:
             </div>
             <Toc items={preview.toc} />
-        </div>)
-
+        </div>) : null
       }
     </div>
   )

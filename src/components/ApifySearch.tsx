@@ -68,7 +68,30 @@ function Autocomplete(props: any) {
                   getStableGroups(
                     resp.hits[0], 
                     'hierarchy.lvl0'
-                  ).map(
+                  )
+                  .sort((a, b) => {
+                    const pathnameA = (new URL(a[0].url)).pathname;
+                    const pathnameB = (new URL(b[0].url)).pathname;
+    
+                    let { location: { pathname } } = window;
+    
+                    if(['/', ''].includes(pathname)) {
+                      pathname = '/academy';
+                    }
+    
+                    const getLongestCommonPrefix = (a: string, b: string) => {
+                      return a.split('/').filter(Boolean).reduce((acc, curr, i) => {
+                        if (curr === b.split('/').filter(Boolean)[i]) {
+                          return acc + curr + '/';
+                        }
+                        return acc;
+                      }, '');
+                    };
+    
+                    const isTheSameLang = (a: string, b: string) => Number(['js', 'python'].some(lang => (a.includes(lang) && b.includes(lang))));
+                    
+                    return getLongestCommonPrefix(pathnameB, pathname).length + 20 * isTheSameLang(pathnameB, pathname) - getLongestCommonPrefix(pathnameA, pathname).length - 20 * isTheSameLang(pathnameA, pathname);
+                  }).map(
                     (items: any) => getStableGroups(items, 'hierarchy.lvl1').map(items => (
                       items.sort((a: any, b: any) => {
                         return Object.values(a.hierarchy).filter(val => val).length - Object.values(b.hierarchy).filter(val => val).length;
