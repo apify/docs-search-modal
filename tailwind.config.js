@@ -8,6 +8,10 @@ module.exports = {
       "./src/**/*.{js,jsx,ts,tsx}",
     ],
     theme: {
+      borderWidth: {
+        DEFAULT: '1px',
+        '1': '1px',
+      },
       extend: {},
     },
     plugins: [],

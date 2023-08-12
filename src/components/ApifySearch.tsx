@@ -11,6 +11,7 @@ import algoliasearch from 'algoliasearch/lite';
 import '@algolia/autocomplete-theme-classic';
 import { ResultsItems } from './ResultsItems';
 import { render } from 'react-dom';
+import { FiSearch } from 'react-icons/fi';
 
 const collapseResults = (() => {
   return {
@@ -37,6 +38,7 @@ function Autocomplete(props: any) {
       defaultActiveItemId: 0,
       detachedMediaQuery: '',
       placeholder: 'Search Apify Docs...',
+      openOnFocus: false,
       getSources: ({ query }: { query: string }) => [
         {
           sourceId: 'products',
@@ -133,12 +135,44 @@ function Autocomplete(props: any) {
       ...props,
     });
 
+    window.addEventListener('keydown', (e: any) => {
+      if (e.key === 'Escape') {
+        (document.querySelector('.aa-Input') as any)?.blur();
+        search.setIsOpen(false);
+        return false;
+      }
+
+      if (e.ctrlKey && e.key === 'k') {
+        (document.querySelector('.aa-DetachedSearchButton') as any)?.click();
+        e.preventDefault();
+        e.stopPropagation();
+
+        return false;
+      }
+    });
+
     return () => {
       search.destroy();
     };
   }, [props]);
 
-  return <div ref={containerRef} />;
+  return (
+    <>
+      <button 
+        onClick={() => {
+          (document.querySelector('.aa-DetachedSearchButton') as any)?.click()
+        }
+      }
+        className="hover:cursor-pointer md:px-2 md:pr-4 md:py-1 border-none md:border-solid border-slate-300 border-1 bg-transparent text-slate-500 dark:bg-slate-800 rounded-md flex items-center space-x-2 dark:hover:bg-slate-700 dark:text-slate-50 dark:border-slate-400"
+      >
+        <FiSearch size={24}/>
+        <span className='mx-3 text-sm hidden md:block'>
+          Search
+        </span>
+      </button>
+      <div className='hidden' ref={containerRef} />
+    </>
+  );
 }
 
 export function ApifySearch({
