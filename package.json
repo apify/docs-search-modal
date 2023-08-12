@@ -24,7 +24,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "yarn clean && tsc && npx tailwindcss -i ./src/index.css -o ./dist/index.css"
+    "build": "yarn clean && tsc && npx tailwindcss -i ./src/index.css -o ./dist/index.css",
+    "inject": "yarn build && cp -r ./dist ./../apify-docs/node_modules/@apify/docs-search-modal"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -32,6 +32,7 @@ code {
 
 mark {
   background-color: inherit !important;
+  color: burlywood !important;
 }
 
 .aa-Autocomplete {
@@ -50,8 +51,33 @@ html[data-theme="dark"] .aa-DetachedSearchButton {
   font-family: inherit;
   font-weight: 400 !important;
   height: 36px !important;
-  justify-content: space-between !important;
+  justify-content: flex-start !important;
   padding: 0 8px !important;
   user-select: none !important;
   width: 100% !important;
+}
+
+.aa-DetachedSearchButtonIcon {
+  color: gainsboro !important;
+  width: 20px !important;
+}
+
+.aa-DetachedSearchButtonPlaceholder, .aa-DetachedSearchButtonQuery {
+  padding-left: 10px !important;
+}
+
+html[data-theme="dark"] .aa-DetachedSearchButtonPlaceholder, html[data-theme="dark"] .aa-DetachedSearchButtonQuery, html[data-theme="dark"] .aa-SubmitIcon {
+  color: gainsboro !important;
+}
+html[data-theme="dark"] .aa-DetachedContainer {
+  background-color: #0d1a22 !important
+}
+
+html[data-theme="dark"] .aa-Form, html[data-theme="dark"] .aa-InputWrapper input {
+  background-color: #2e2f3a !important;
+  color: white !important;
+}
+
+html[data-theme="dark"] .aa-InputWrapper input ::placeholder, html[data-theme="dark"] .aa-DetachedCancelButton {
+  color: white !important;
 }

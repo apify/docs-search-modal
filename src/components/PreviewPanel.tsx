@@ -11,6 +11,8 @@ import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
 // @ts-ignore
 import prism from 'react-syntax-highlighter/dist/esm/styles/prism/prism';
 // @ts-ignore
+import darcula from 'react-syntax-highlighter/dist/esm/styles/prism/darcula';
+// @ts-ignore
 import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
 // @ts-ignore
 import docker from 'react-syntax-highlighter/dist/esm/languages/prism/docker';
@@ -59,7 +61,7 @@ function Toc( { items }: { items: TocItem[] } ) {
       { 
         items.map(( item, i ) => (
           <div style={{marginTop: '1em'}} key={i}>
-            <a href={item.href} className="aa-ItemLink" style={{color: 'slategray'}}>{i+1}. {item.title}</a>
+            <a href={item.href} className="text-slate-500 dark:text-slate-300">{i+1}. {item.title}</a>
             { item.children && Toc({ items: item.children }) }
           </div>)
         )
@@ -70,25 +72,35 @@ function Toc( { items }: { items: TocItem[] } ) {
 
 export function PreviewPanel({ preview, components }: { preview: any, components: any }) {
   return (
-    <div className="h-full p-5 hidden lg:block bg-slate-50 shadow-inner overflow-y-scroll">
+    <div className="h-full p-5 hidden lg:block bg-slate-50 dark:bg-slate-700 shadow-inner overflow-y-scroll">
       <Breadcrumbs key="breadcrumbs" item={preview} highlight={components.Highlight} />
-      <div key="title" className='w-full text-center text-slate-800 text-2xl p-7 font-semibold'>
+      <div key="title" className='w-full text-center text-slate-800 dark:text-slate-100 text-2xl p-7 font-semibold'>
         <components.Highlight hit={preview} attribute={["name"]} />
       </div>
-      <div key="preview" className="px-6 pb-6 text-slate-600 mb-10 border-b-2 border-neutral-200 leading-6">
+      <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-slate-200 mb-10 border-0 border-b-2 border-neutral-200 border-solid leading-6">
         {
           parseIntoBlocks(preview.content).map((block: any, i: number) => {
             if(block.type === 'text') {
               return <p className='mb-3' key={i}>{
                 block.value.split('`').map((x: string, i: number) => {
                   if(i % 2 === 0) return x;
-                  return <code key={x} className='bg-slate-200 px-1 py-0.5 mx-0.5 rounded'>{x}</code>
+                  return <code key={x} className='bg-slate-200 dark:bg-slate-600 px-1 py-0.5 mx-0.5 rounded'>{x}</code>
                 })
               }</p>
             } else {
-              return <div className='mb-3 px-3 bg-slate-100 py-3 rounded-l' key={i}>
+              return <div className='mb-3 px-3 bg-slate-100 dark:bg-slate-800 py-3 rounded-l box-border' key={i}>
                 <code className="select-all border-0 p-0">
-                  <SyntaxHighlighter language={block.lang} style={ prism } customStyle={{background: 'rgba(0,0,0,0)', 'padding': '0px', 'margin' : '0px'}}>    
+                  <SyntaxHighlighter 
+                    language={block.lang} 
+                    style={ document.querySelector('[data-theme="dark"]') ? darcula : prism } 
+                    customStyle={{
+                      background: 'rgba(0,0,0,0)', 
+                      padding: '0px', 
+                      margin : '0px', 
+                      border: '0px',
+                      boxShadow: 'none',
+                      paddingBottom: '5px'
+                    }}>    
                     {block.value}
                   </SyntaxHighlighter>
                 </code>
@@ -101,7 +113,7 @@ export function PreviewPanel({ preview, components }: { preview: any, components
         preview.toc?.length && preview.toc.length > 0 &&
         (
         <div className='px-6' key="toc">
-            <div className='text-slate-600 font-normal'>
+            <div className='text-slate-600 dark:text-slate-200 font-normal'>
               On this page:
             </div>
             <Toc items={preview.toc} />
