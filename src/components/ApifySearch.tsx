@@ -53,7 +53,7 @@ function Autocomplete(props: any) {
                     hitsPerPage: 20,
                     attributesToSnippet: ['content:35'],
                     attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url'],
-                    filters: 'version:latest'
+                    filters: props.filters ?? 'version:latest'
                   },
                 },
               ],
@@ -202,6 +202,7 @@ export function ApifySearch({
   algoliaKey,
   algoliaAppId,
   algoliaIndexName,
+  filters,
   style,
   className,
   ...props
@@ -209,6 +210,7 @@ export function ApifySearch({
   algoliaKey: string;
   algoliaAppId: string;
   algoliaIndexName: string;
+  filters?: string;
   className?: string;
   style?: any;
 }) {
@@ -222,6 +224,7 @@ export function ApifySearch({
       <Autocomplete 
         searchClient={searchClient}
         indexName={algoliaIndexName}
+        filters={filters}
         {...props}
       />
     </div>
