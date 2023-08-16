@@ -32,7 +32,11 @@ code {
 
 mark {
   background-color: inherit !important;
-  color: burlywood !important;
+  color: #12966f !important;
+}
+
+html[data-theme="dark"] mark {
+  color: #439274 !important;
 }
 
 .aa-Autocomplete {
