@@ -48,6 +48,14 @@ html[data-theme="dark"] .aa-DetachedSearchButton {
   border: 1px solid #7f8497 !important;
 }
 
+.aa-DetachedContainer--modal {
+  border-radius: 12px !important;
+}
+
+.aa-Form {
+  border-radius: 6px !important;
+}
+
 .aa-DetachedSearchButton {
   background: #f9fafd !important;
   border: 1px solid #c1c6dd !important;
