@@ -1,4 +1,4 @@
-import { createElement, Fragment, useEffect, useRef, useMemo } from 'react';
+import { createElement, Fragment, useEffect, useRef, useMemo, createContext, useContext } from 'react';
 import { Footer } from './Footer';
 import { PreviewPanel } from './PreviewPanel';
 import { getTitle } from '../utils/getTitle';
@@ -24,6 +24,9 @@ const collapseResults = (() => {
   }
 })();
 
+const NavigateContext = createContext((...props: any[]) => { throw new Error('The navigate function has not been initialized yet.') });
+export const useNavigate = () => useContext(NavigateContext);
+
 function Autocomplete(props: any) {
   const containerRef = useRef<any>(null);
 
@@ -39,6 +42,11 @@ function Autocomplete(props: any) {
       detachedMediaQuery: '',
       placeholder: 'Search Apify Docs...',
       openOnFocus: false,
+      navigator: {
+        navigate({ itemUrl }) {
+          props.navigate?.(itemUrl);
+        },
+      },
       getSources: ({ query }: { query: string }) => [
         {
           sourceId: 'products',
@@ -115,36 +123,34 @@ function Autocomplete(props: any) {
       ],
       render({ state, components, Fragment, setContext, setActiveItemId, render }, root) {
         if (state?.query?.length > 0) {
-
           collapseResults.show();
-
-          if ( state?.collections?.[0].items.length === 0 ) {
-            return render (
-              <div className='flex flex-col h-full bg-white dark:bg-slate-800'>
-                <div className="flex flex-col justify-center items-center flex-1">
-                    <div className='text-slate-400 font-medium text-lg px-3 py-1'>
-                      No results :(
-                    </div>
-                </div>
-                <Footer />
-              </div>
-            , root);
-          }
 
           let { preview } = state.context as any;
           preview = {...preview, name: getTitle(preview)}
 
           return render (
             <Fragment>
-              <div className="flex flex-col h-full bg-white dark:bg-slate-800">
-                <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 flex-1 overflow-hidden">
-                  <div className="h-full overflow-y-scroll">
-                    <ResultsItems {...{items: state?.collections?.[0]?.items, setActiveItemId, setContext, state, components }} />
-                  </div>
-                  <PreviewPanel preview={preview} components={components} />
+              <NavigateContext.Provider value={props.navigate}>
+                <div className="flex flex-col h-full bg-white dark:bg-slate-800">
+                    {
+                    state.collections[0].items.length === 0 ? (
+                      <div className="flex flex-col justify-center items-center flex-1">
+                          <div className='text-slate-400 font-medium text-lg px-3 py-1'>
+                            No results :(
+                          </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 flex-1 overflow-hidden">
+                        <div className="h-full overflow-y-scroll">
+                          <ResultsItems {...{items: state?.collections?.[0]?.items, setActiveItemId, setContext, state, components }} />
+                        </div>
+                        <PreviewPanel preview={preview} components={components} />
+                      </div>
+                    )
+                  }
+                  <Footer />
                 </div>
-                <Footer />
-              </div>
+              </NavigateContext.Provider>
               </Fragment>
           , root);
         } else {

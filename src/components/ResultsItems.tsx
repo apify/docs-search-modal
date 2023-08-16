@@ -3,12 +3,18 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { getTitle } from "../utils/getTitle";
 import { getIcon } from "../utils/getIcon";
 import { countFamily } from "../utils/countFamily";
+import { useNavigate } from "./ApifySearch";
 
 function ResultsItem({ item, components, className, onMouseEnter }: { item: any, components: any, className?: string, onMouseEnter?: any }) {
     item = {...item, name: getTitle(item)}
 
+    const navigate = useNavigate();
+
     return (
-      <a className={`aa-ItemLink dark:text-white ${className}`} href={item.url} onMouseEnter={onMouseEnter}>
+      <a className={`aa-ItemLink dark:text-white ${className}`} href={item.url} onMouseEnter={onMouseEnter} onClick={e => {
+        e.preventDefault();
+        navigate(item.url);
+      }}>
         <div className="aa-ItemContent flex flex-row align-center">
           <div key="icon">
             { getIcon({item})?.({size: 24, color: 'slategray'}) }
