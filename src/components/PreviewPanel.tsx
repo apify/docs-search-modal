@@ -18,6 +18,8 @@ import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
 import docker from 'react-syntax-highlighter/dist/esm/languages/prism/docker';
 // @ts-ignore
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+// @ts-ignore
+import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 
 SyntaxHighlighter.registerLanguage('js', javascript);
 SyntaxHighlighter.registerLanguage('javascript', javascript);
@@ -27,6 +29,7 @@ SyntaxHighlighter.registerLanguage('shell', bash);
 SyntaxHighlighter.registerLanguage('python', python);
 SyntaxHighlighter.registerLanguage('py', python);
 SyntaxHighlighter.registerLanguage('docker', docker);
+SyntaxHighlighter.registerLanguage('yaml', yaml);
 
 /**
  * Splits the markdown formatted content into blocks of text and code (delimited by ```).
