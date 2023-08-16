@@ -20,6 +20,7 @@ import docker from 'react-syntax-highlighter/dist/esm/languages/prism/docker';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 // @ts-ignore
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
+import { useNavigate } from "./ApifySearch";
 
 SyntaxHighlighter.registerLanguage('js', javascript);
 SyntaxHighlighter.registerLanguage('javascript', javascript);
@@ -74,43 +75,47 @@ function Toc( { items }: { items: TocItem[] } ) {
 }
 
 export function PreviewPanel({ preview, components }: { preview: any, components: any }) {
+  const navigate = useNavigate();
+
   return (
     <div className="h-full p-5 hidden lg:block bg-slate-50 dark:bg-slate-700 shadow-inner overflow-y-scroll">
       <Breadcrumbs key="breadcrumbs" item={preview} highlight={components.Highlight} />
-      <div key="title" className='w-full text-center text-slate-800 dark:text-slate-100 text-2xl p-7 font-semibold'>
-        <components.Highlight hit={preview} attribute={["name"]} />
-      </div>
-      <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-slate-200 mb-10 border-none border-b-solid border-b-2 border-b-neutral-200  leading-6">
-        {
-          parseIntoBlocks(preview.content).map((block: any, i: number) => {
-            if(block.type === 'text') {
-              return <p className='mb-3' key={i}>{
-                block.value.split('`').map((x: string, i: number) => {
-                  if(i % 2 === 0) return x;
-                  return <code key={x} className='bg-slate-200 dark:bg-slate-600 px-1 py-0.5 mx-0.5 rounded'>{x}</code>
-                })
-              }</p>
-            } else {
-              return <div className='mb-3 px-3 bg-slate-100 dark:bg-slate-800 py-3 rounded-l box-border' key={i}>
-                <code className="select-all border-none p-0">
-                  <SyntaxHighlighter 
-                    language={block.lang} 
-                    style={ document.querySelector('[data-theme="dark"]') ? darcula : prism } 
-                    customStyle={{
-                      background: 'rgba(0,0,0,0)', 
-                      padding: '0px', 
-                      margin : '0px', 
-                      border: '0px',
-                      boxShadow: 'none',
-                      paddingBottom: '5px'
-                    }}>    
-                    {block.value}
-                  </SyntaxHighlighter>
-                </code>
-              </div>
-            }
-          })
-        }
+      <div className="hover:cursor-pointer" onClick={() => navigate(preview.url)}>
+        <div key="title" className='w-full text-center text-slate-800 dark:text-slate-100 text-2xl p-7 font-semibold'>
+          <components.Highlight hit={preview} attribute={["name"]} />
+        </div>
+        <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-slate-200 mb-10 border-none border-b-solid border-b-2 border-b-neutral-200  leading-6">
+          {
+            parseIntoBlocks(preview.content).map((block: any, i: number) => {
+              if(block.type === 'text') {
+                return <p className='mb-3' key={i}>{
+                  block.value.split('`').map((x: string, i: number) => {
+                    if(i % 2 === 0) return x;
+                    return <code key={x} className='bg-slate-200 dark:bg-slate-600 px-1 py-0.5 mx-0.5 rounded'>{x}</code>
+                  })
+                }</p>
+              } else {
+                return <div className='mb-3 px-3 bg-slate-100 dark:bg-slate-800 py-3 rounded-l box-border' key={i}>
+                  <code className="select-all border-none p-0 hover:cursor-default" onClick={(e) => { e.stopPropagation() }}>
+                    <SyntaxHighlighter 
+                      language={block.lang} 
+                      style={ document.querySelector('[data-theme="dark"]') ? darcula : prism } 
+                      customStyle={{
+                        background: 'rgba(0,0,0,0)', 
+                        padding: '0px', 
+                        margin : '0px', 
+                        border: '0px',
+                        boxShadow: 'none',
+                        paddingBottom: '5px'
+                      }}>    
+                      {block.value}
+                    </SyntaxHighlighter>
+                  </code>
+                </div>
+              }
+            })
+          }
+        </div>
       </div>
       {
         (preview.toc?.length) && (preview.toc.length > 0) ?
