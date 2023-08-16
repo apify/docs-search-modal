@@ -8,7 +8,7 @@ function ResultsItem({ item, components, className, onMouseEnter }: { item: any,
     item = {...item, name: getTitle(item)}
 
     return (
-      <a className={`aa-ItemLink bg-white dark:bg-slate-800 dark:text-white ${className}`} href={item.url} onMouseEnter={onMouseEnter}>
+      <a className={`aa-ItemLink dark:text-white ${className}`} href={item.url} onMouseEnter={onMouseEnter}>
         <div className="aa-ItemContent flex flex-row align-center">
           <div key="icon">
             { getIcon({item})?.({size: 24, color: 'slategray'}) }
@@ -43,7 +43,7 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
               a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)) ? 'pl-10' : 'pl-3'
             }
             ${
-              state.activeItemId === i ? 'dark:hover:bg-slate-700 hover:bg-slate-100' : ''
+              state.activeItemId === i ? 'dark:bg-slate-700 bg-slate-100' : 'dark:bg-slate-800 bg-white'
             }
           `}  
           onMouseEnter={() => {
