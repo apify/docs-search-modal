@@ -1,5 +1,5 @@
-import { BiLogoPython, BiLogoJavascript, BiSolidTerminal } from 'react-icons/bi';
-import { IoMdDocument } from 'react-icons/io';
+import { BiLogoPython, BiLogoJavascript, BiTerminal } from 'react-icons/bi';
+import { DocumentIcon } from './icons';
 
 import { HierarchicalItem } from '../types';
 
@@ -13,8 +13,8 @@ export function getIcon({ item }: { item: HierarchicalItem }) {
     } else if (item?.hierarchy?.lvl0.toLowerCase().includes('javascript')) {
       return BiLogoJavascript;
     } else if (item?.hierarchy?.lvl0.toLowerCase().includes('cli')) {
-      return BiSolidTerminal;
+      return BiTerminal;
     }
-    return IoMdDocument;
+    return DocumentIcon;
   }
   
