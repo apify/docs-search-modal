@@ -20,7 +20,7 @@ function ResultsItem({ item, components, className, onMouseEnter }: { item: any,
             { getIcon({item})?.({size: 24, color: 'slategray'}) }
           </div>
           <div className="aa-ItemContentBody" style={{paddingLeft: '10px'}} >
-            <div className="aa-ItemContentTitle" style={{ fontSize: '90%' }} key="title">
+            <div className="aa-ItemContentTitle" style={{ fontSize: '14px', fontWeight: '500', lineHeight: '19.2px' }} key="title">
               <components.Highlight hit={item} attribute="name" />
             </div>
             <div className="aa-ItemContentDescription" key="breadcrumbs">
@@ -36,7 +36,7 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
   return items?.map((item: any, i: number, a: any[]) => (
       <div key={item.objectID}>
       {((a?.[i-1]?.hierarchy as any)?.lvl0 !== (item?.hierarchy as any)?.lvl0 &&
-      <div key='heading' className='text-white bg-slate-400 dark:bg-slate-500 font-medium text-sm px-3 py-1'>
+      <div key='heading' className='text-white bg-slate-400 dark:bg-slate-500 font-bold px-3 py-1' style={{fontSize: "13.6px", lineHeight: '18px'}}>
         {(item?.hierarchy as any)?.lvl0}
       </div>
       )}
