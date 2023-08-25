@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import { Breadcrumbs } from "./Breadcrumbs";
 
 import { getTitle } from "../utils/getTitle";
@@ -5,16 +7,31 @@ import { getIcon } from "../utils/getIcon";
 import { countFamily } from "../utils/countFamily";
 import { useNavigate } from "./ApifySearch";
 
-function ResultsItem({ item, components, className, onMouseEnter }: { item: any, components: any, className?: string, onMouseEnter?: any }) {
+function ResultsItem({ item, components, className, onMouseEnter, isActive }: { item: any, components: any, className?: string, onMouseEnter?: any, isActive?: boolean }) {
     item = {...item, name: getTitle(item)}
+    const ref = useRef<HTMLAnchorElement>(null);
+
+    useEffect(() => {
+      if (isActive) {
+        ref.current?.scrollIntoView({ block: 'nearest', inline: 'start' });
+      }
+    }, [isActive]);
 
     const navigate = useNavigate();
 
     return (
-      <a className={`aa-ItemLink dark:text-white ${className}`} href={item.url} onMouseEnter={onMouseEnter} onClick={e => {
-        e.preventDefault();
-        navigate(item.url);
-      }}>
+      <a 
+        className={`
+          aa-ItemLink dark:text-white 
+          ${isActive ? 'dark:bg-slate-700 bg-slate-100' : 'dark:bg-slate-800 bg-white'}  
+        ${className}`} 
+        href={item.url} 
+        onMouseEnter={onMouseEnter} onClick={e => {
+          e.preventDefault();
+          navigate(item.url);
+        }}
+        ref={ref}
+      >
         <div className="aa-ItemContent flex flex-row align-center">
           <div key="icon">
             { getIcon({item})?.({size: 24, color: 'slategray'}) }
@@ -44,12 +61,10 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
           key={item.objectID}
           item={item} 
           components={components}
+          isActive={state.activeItemId === i}
           className={`p-2 hover:cursor-pointer 
             ${
               a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)) ? 'pl-10' : 'pl-3'
-            }
-            ${
-              state.activeItemId === i ? 'dark:bg-slate-700 bg-slate-100' : 'dark:bg-slate-800 bg-white'
             }
           `}  
           onMouseEnter={() => {
