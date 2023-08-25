@@ -84,7 +84,7 @@ export function PreviewPanel({ preview, components }: { preview: any, components
         <div key="title" className='w-full text-center text-slate-800 dark:text-slate-100 text-2xl p-7 font-semibold'>
           <components.Highlight hit={preview} attribute={["name"]} />
         </div>
-        <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-slate-200 mb-10 border-none border-b-solid border-b-2 border-b-neutral-200  leading-6">
+        <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-slate-200 border-none border-b-solid border-b-2 border-b-neutral-200  leading-6">
           {
             parseIntoBlocks(preview.content).map((block: any, i: number) => {
               if(block.type === 'text') {
