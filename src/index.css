@@ -93,3 +93,13 @@ html[data-theme="dark"] .aa-Form, html[data-theme="dark"] .aa-InputWrapper input
 html[data-theme="dark"] .aa-InputWrapper input ::placeholder, html[data-theme="dark"] .aa-DetachedCancelButton {
   color: white !important;
 }
+
+.aa-DetachedCancelButton {
+  display: none !important;
+}
+
+@media (max-width: 679px) {
+  .aa-DetachedCancelButton {
+    display: block !important;
+  }
+}
