@@ -53,13 +53,13 @@ html[data-theme="dark"] .aa-DetachedSearchButton {
 }
 
 .aa-Form {
-  border-radius: 6px !important;
+  border-radius: 3px !important;
 }
 
 .aa-DetachedSearchButton {
   background: #f9fafd !important;
   border: 1px solid #c1c6dd !important;
-  border-radius: 6px !important;
+  border-radius: 3px !important;
   font-family: inherit;
   font-weight: 400 !important;
   height: 36px !important;
@@ -83,6 +83,17 @@ html[data-theme="dark"] .aa-DetachedSearchButtonPlaceholder, html[data-theme="da
 }
 html[data-theme="dark"] .aa-DetachedContainer {
   background-color: #0d1a22 !important
+}
+
+.aa-InputWrapper input {
+  font-size: 19.2px !important;
+}
+
+.aa-SubmitIcon {
+    width: 24px !important;
+    height: 24px !important;
+    max-height: 50px !important;
+    margin-top: 3px !important;
 }
 
 html[data-theme="dark"] .aa-Form, html[data-theme="dark"] .aa-InputWrapper input {
