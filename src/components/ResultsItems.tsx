@@ -53,7 +53,7 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
   return items?.map((item: any, i: number, a: any[]) => (
       <div key={item.objectID}>
       {((a?.[i-1]?.hierarchy as any)?.lvl0 !== (item?.hierarchy as any)?.lvl0 &&
-      <div key='heading' className='text-white bg-slate-400 dark:bg-slate-500 font-bold px-3 py-1' style={{fontSize: "13.6px", lineHeight: '18px'}}>
+      <div key='heading' className='text-white bg-blue-400 dark:bg-sky-700 font-bold px-3 py-1' style={{fontSize: "13.6px", lineHeight: '18px'}}>
         {(item?.hierarchy as any)?.lvl0}
       </div>
       )}
