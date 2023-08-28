@@ -11,8 +11,8 @@ import algoliasearch from 'algoliasearch/lite';
 import '@algolia/autocomplete-theme-classic';
 import { ResultsItems } from './ResultsItems';
 import { render } from 'react-dom';
-import { FiSearch } from 'react-icons/fi';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { SearchIcon, ControlKeyIcon } from '../utils/icons';
 
 const collapseResults = (() => {
   return {
@@ -190,16 +190,42 @@ function Autocomplete(props: any) {
   window.removeEventListener('keydown', windowHandler);
   window.addEventListener('keydown', windowHandler);
 
+  const [key, setKey] = useState<
+    '⌘' | 'ctrl' | null
+  >(null);
+
+  useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+      const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+
+      isMac ? setKey('⌘') : setKey('ctrl');
+    }
+  }, []);
+
+
   return (
     <>
-      <button 
+      <button
         onClick={() => setOpen(true)}
-        className="hover:cursor-pointer md:px-2 md:pr-4 md:py-1 border-none md:border-solid border-slate-300 border-1 bg-transparent text-slate-500 dark:bg-slate-800 rounded-md flex items-center space-x-2 dark:hover:bg-slate-700 dark:text-slate-50 dark:border-slate-400"
-      >
-        <FiSearch size={24}/>
-        <span className='mx-3 text-sm hidden md:block'>
-          Search
-        </span>
+        type="button"
+        className="DocSearch DocSearch-Button"
+        aria-label="Search"
+        {...props}
+        >
+          <span className="DocSearch-Button-Container">
+            <SearchIcon />
+            <span className="DocSearch-Button-Placeholder">Search</span>
+          </span>
+          <span className="DocSearch-Button-Keys">
+          {key !== null && (
+              <>
+                <kbd className="DocSearch-Button-Key">
+                  {key === 'ctrl' ? <ControlKeyIcon /> : key}
+                </kbd>
+                <kbd className="DocSearch-Button-Key">K</kbd>
+              </>
+            )}
+          </span>
       </button>
       <div className='hidden' ref={containerRef} />
     </>
