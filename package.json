@@ -9,6 +9,7 @@
     "@algolia/autocomplete-theme-classic": "^1.10.0",
     "algoliasearch": "^4.19.1",
     "html-entities": "^2.4.0",
+    "react-hotkeys-hook": "^4.4.1",
     "react-icons": "^4.10.1",
     "react-syntax-highlighter": "^15.5.0"
   },

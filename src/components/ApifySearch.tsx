@@ -1,4 +1,4 @@
-import { createElement, Fragment, useEffect, useRef, useMemo, createContext, useContext } from 'react';
+import { createElement, Fragment, useEffect, useRef, useMemo, createContext, useContext, useState, useCallback } from 'react';
 import { Footer } from './Footer';
 import { PreviewPanel } from './PreviewPanel';
 import { getTitle } from '../utils/getTitle';
@@ -12,6 +12,7 @@ import '@algolia/autocomplete-theme-classic';
 import { ResultsItems } from './ResultsItems';
 import { render } from 'react-dom';
 import { FiSearch } from 'react-icons/fi';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 const collapseResults = (() => {
   return {
@@ -29,6 +30,13 @@ export const useNavigate = () => useContext(NavigateContext);
 
 function Autocomplete(props: any) {
   const containerRef = useRef<any>(null);
+  const setOpen = useCallback((open: boolean) => {
+    if(open) {
+      (document.querySelector('.aa-DetachedSearchButton') as any)?.click();
+    } else {
+      (document.querySelector('.aa-DetachedCancelButton') as any)?.click();
+    }
+  }, []);  
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -157,27 +165,11 @@ function Autocomplete(props: any) {
           collapseResults.hide();
 
           return render (
-            <></>
+            <Fragment></Fragment>
           , root);
         }
       },
       ...props,
-    });
-
-    window.addEventListener('keydown', (e: any) => {
-      if (e.key === 'Escape') {
-        (document.querySelector('.aa-Input') as any)?.blur();
-        search.setIsOpen(false);
-        return false;
-      }
-
-      if (e.ctrlKey && e.key === 'k') {
-        (document.querySelector('.aa-DetachedSearchButton') as any)?.click();
-        e.preventDefault();
-        e.stopPropagation();
-
-        return false;
-      }
     });
 
     return () => {
@@ -185,13 +177,23 @@ function Autocomplete(props: any) {
     };
   }, [props]);
 
+  useHotkeys('mod+k, /', () => setOpen(true), {
+    preventDefault: true,
+  });
+
+  const windowHandler = (e: any) => {
+    if(e.key === 'Escape') {
+      setOpen(false);
+    }
+  };
+
+  window.removeEventListener('keydown', windowHandler);
+  window.addEventListener('keydown', windowHandler);
+
   return (
     <>
       <button 
-        onClick={() => {
-          (document.querySelector('.aa-DetachedSearchButton') as any)?.click()
-        }
-      }
+        onClick={() => setOpen(true)}
         className="hover:cursor-pointer md:px-2 md:pr-4 md:py-1 border-none md:border-solid border-slate-300 border-1 bg-transparent text-slate-500 dark:bg-slate-800 rounded-md flex items-center space-x-2 dark:hover:bg-slate-700 dark:text-slate-50 dark:border-slate-400"
       >
         <FiSearch size={24}/>
