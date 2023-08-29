@@ -214,6 +214,10 @@ html[data-theme="dark"] .aa-DetachedSearchButton {
   width: 100% !important;
 }
 
+.resultsItems a:hover {
+  color: unset;
+}
+
 .aa-DetachedSearchButtonIcon {
   color: gainsboro !important;
   width: 20px !important;

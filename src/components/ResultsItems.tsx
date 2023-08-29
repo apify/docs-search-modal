@@ -7,7 +7,7 @@ import { getIcon } from "../utils/getIcon";
 import { countFamily } from "../utils/countFamily";
 import { useNavigate } from "./ApifySearch";
 
-function ResultsItem({ item, components, className, onMouseEnter, isActive }: { item: any, components: any, className?: string, onMouseEnter?: any, isActive?: boolean }) {
+function ResultsItem({ item, components, className, onMouseMove, isActive }: { item: any, components: any, className?: string, onMouseMove?: any, isActive?: boolean }) {
     item = {...item, name: getTitle(item)}
     const ref = useRef<HTMLAnchorElement>(null);
 
@@ -22,11 +22,13 @@ function ResultsItem({ item, components, className, onMouseEnter, isActive }: { 
     return (
       <a 
         className={`
-          aa-ItemLink dark:text-white 
-          ${isActive ? 'dark:bg-slate-700 bg-slate-100' : 'dark:bg-slate-800 bg-white'}  
+          hover:cursor-pointer aa-ItemLink dark:text-white 
+          ${isActive ? 'dark:bg-slate-700 bg-slate-100 text-blue-400' : 'dark:bg-slate-800 bg-white'}  
         ${className}`} 
+        style={{color: isActive ? 'rgb(96 165 250)' : undefined}}
         href={item.url} 
-        onMouseEnter={onMouseEnter} onClick={e => {
+        onMouseMove={onMouseMove}
+        onClick={e => {
           e.preventDefault();
           navigate(item.url);
         }}
@@ -61,13 +63,13 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
           key={item.objectID}
           item={item} 
           components={components}
-          isActive={state.activeItemId === i}
+          isActive={state.context.preview.url === item.url}
           className={`p-2 hover:cursor-pointer 
             ${
               a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)) ? 'pl-10' : 'pl-3'
             }
           `}  
-          onMouseEnter={() => {
+          onMouseMove={() => {
             state?.collections?.[0]?.source.onActive({ setContext, item } as any);
             setActiveItemId(i);
           }}

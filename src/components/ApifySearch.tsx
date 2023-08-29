@@ -36,7 +36,7 @@ function Autocomplete(props: any) {
     } else {
       (document.querySelector('.aa-DetachedCancelButton') as any)?.click();
     }
-  }, []);  
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -46,8 +46,8 @@ function Autocomplete(props: any) {
     const search = autocomplete({
       container: containerRef.current,
       renderer: { createElement, Fragment, render },
-      defaultActiveItemId: 0,
       detachedMediaQuery: '',
+      defaultActiveItemId: 0,
       placeholder: 'Search Apify Docs...',
       openOnFocus: false,
       navigator: {
@@ -78,6 +78,7 @@ function Autocomplete(props: any) {
                 let dom = document.querySelector('.aa-Panel') as any;
                 if(dom) {
                   setProperty(dom, 'onmousedown', () => {});
+                  setProperty(dom, 'onmouseout', () => {});
                 }
 
                 return [
@@ -149,7 +150,7 @@ function Autocomplete(props: any) {
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 flex-1 overflow-hidden">
-                        <div className="h-full overflow-y-scroll">
+                        <div className="h-full overflow-y-scroll resultsItems">
                           <ResultsItems {...{items: state?.collections?.[0]?.items, setActiveItemId, setContext, state, components }} />
                         </div>
                         <PreviewPanel preview={preview} components={components} />
