@@ -4,7 +4,10 @@ import { decode } from "html-entities";
  * Renders breadcrumbs for the current item.
  */
 export function Breadcrumbs({ item, highlight }: any) {
-    const x = Object.entries(item?._highlightResult?.hierarchy ?? {}).filter(([_,b]) => b).sort(([a],[b]) => a.localeCompare(b));
+    const x = Object.entries(item?._highlightResult?.hierarchy ?? {})
+      .filter(([_,b]) => b)
+      .sort(([a],[b]) => a.localeCompare(b))
+      .slice(1);
   
     return (
       <div className='overflow-x-hidden overflow-ellipsis whitespace-nowrap leading-normal h-auto'>
