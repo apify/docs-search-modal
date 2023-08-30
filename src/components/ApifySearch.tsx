@@ -13,6 +13,7 @@ import { ResultsItems } from './ResultsItems';
 import { render } from 'react-dom';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { SearchIcon, ControlKeyIcon } from '../utils/icons';
+import { countFamily } from '../utils/countFamily';
 
 const collapseResults = (() => {
   return {
@@ -115,6 +116,13 @@ function Autocomplete(props: any) {
                       })
                     )).flat()
                   ).flat()
+                  .filter((item: any, i: number, a: any[]) => {
+                    const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
+              
+                    return item?._highlightResult.content.matchLevel === 'full' 
+                    || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full'
+                    || a.slice(0, i).some((x: any) => (countFamily(x, item) === 2));
+                  }),
                 ];
               }
             });

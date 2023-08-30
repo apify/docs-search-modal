@@ -52,14 +52,7 @@ function ResultsItem({ item, components, className, onMouseMove, isActive }: { i
   }
 
 export function ResultsItems({ items, setActiveItemId, setContext, components, state }: any) {
-  return items?.filter((item: any, i: number, a: any[]) => {
-      const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
-
-      return item?._highlightResult.content.matchLevel === 'full' 
-      || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full'
-      || a.slice(0, i).some((x: any) => (countFamily(x, item) === 2));
-    })
-    .map((item: any, i: number, a: any[]) => (
+  return items?.map((item: any, i: number, a: any[]) => (
       <div key={item.objectID}>
         {((a?.[i-1]?.hierarchy as any)?.lvl0 !== (item?.hierarchy as any)?.lvl0 &&
         <div key='heading' className='text-white bg-blue-400 dark:bg-sky-700 font-bold px-3 py-1' style={{fontSize: "13.6px", lineHeight: '18px'}}>
