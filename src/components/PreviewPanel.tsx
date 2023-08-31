@@ -90,8 +90,8 @@ export function PreviewPanel({ preview, components }: { preview: any, components
               if(block.type === 'text') {
                 return <p className='mb-3' key={i}>{
                   block.value.split('`').map((x: string, i: number) => {
-                    if(i % 2 === 0) return x;
-                    return <code key={x} className='bg-slate-200 dark:bg-slate-600 px-1 py-0.5 mx-0.5 rounded'>{x}</code>
+                    if(i % 2 === 0) return <span key={i} className="inline">{x}</span>;
+                    return <code key={i} className='bg-slate-200 dark:bg-slate-600 px-1 py-0.5 mx-0.5 rounded inline'>{x}</code>
                   })
                 }</p>
               } else {
