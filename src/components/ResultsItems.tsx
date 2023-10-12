@@ -66,7 +66,7 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
           isActive={state.context.preview.url === item.url}
           className={`p-2 hover:cursor-pointer 
             ${
-              a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)) ? 'pl-10' : 'pl-3'
+              a.slice(0, i).some((x: any) => (countFamily(x, item) >= 2)) ? 'pl-10' : 'pl-3'
             }
           `}  
           onMouseMove={() => {
