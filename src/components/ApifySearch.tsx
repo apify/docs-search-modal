@@ -69,7 +69,7 @@ function Autocomplete(props: any) {
                   params: {
                     hitsPerPage: 20,
                     attributesToSnippet: ['content:35'],
-                    attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url'],
+                    attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
                     filters: props.filters ?? 'version:latest'
                   },
                 },
