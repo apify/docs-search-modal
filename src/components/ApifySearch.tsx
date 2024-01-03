@@ -116,13 +116,15 @@ function Autocomplete(props: any) {
                       })
                     )).flat()
                   ).flat()
-                  .filter((item: any, i: number, a: any[]) => {
-                    const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
+                  // .filter((item: any, i: number, a: any[]) => {
+
+                  //   const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
               
-                    return item?._highlightResult.content.matchLevel === 'full' 
-                    || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full'
-                    || a.slice(0, i).some((x: any) => (countFamily(x, item) === 2));
-                  }),
+                  //   // show the item only if:
+                  //   return item?._highlightResult.content.matchLevel === 'full' // the query is a substring of the "content"
+                  //   || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full' // the query is a substring of the last item in the "hierarchy" (i.e the retrieved article/heading "name")
+                  //   || a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)); // the item is a child of the previous item
+                  // }),
                 ];
               }
             });
