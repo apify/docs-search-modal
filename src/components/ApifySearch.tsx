@@ -23,7 +23,7 @@ const pathPrefixToSectionTag = {
 }
 
 function getCurrentSectionTag(pathname: string) {
-  return Object.entries(pathPrefixToSectionTag).find(([pathPrefix]) => pathname.startsWith(pathPrefix))?.[1];
+  return Object.entries(pathPrefixToSectionTag).find(([pathPrefix]) => pathname.startsWith(pathPrefix))?.[1] ?? 'apify-docs'
 }
 
 const MAX_RESULTS = 20;
