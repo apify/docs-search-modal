@@ -13,7 +13,20 @@ import { ResultsItems } from './ResultsItems';
 import { render } from 'react-dom';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { SearchIcon, ControlKeyIcon } from '../utils/icons';
-import { countFamily } from '../utils/countFamily';
+
+const pathPrefixToSectionTag = {
+  "/api/client/js": "apify-client-js",
+  "/api/client/python": "apify-client-python",
+  "/sdk/js": "apify-sdk-js",
+  "/sdk/python": "apify-sdk-python",
+  "/cli": "apify-cli",
+}
+
+function getCurrentSectionTag(pathname: string) {
+  return Object.entries(pathPrefixToSectionTag).find(([pathPrefix]) => pathname.startsWith(pathPrefix))?.[1] ?? 'apify-docs'
+}
+
+const MAX_RESULTS = 20;
 
 const collapseResults = (() => {
   return {
@@ -60,6 +73,8 @@ function Autocomplete(props: any) {
         {
           sourceId: 'products',
           getItems() {
+            const currentSection = getCurrentSectionTag(window.location.pathname);
+
             return getAlgoliaResults({
               searchClient: props.searchClient,
               queries: [
@@ -67,10 +82,22 @@ function Autocomplete(props: any) {
                   indexName: props.indexName,
                   query,
                   params: {
-                    hitsPerPage: 20,
+                    hitsPerPage: MAX_RESULTS,
                     attributesToSnippet: ['content:35'],
                     attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
-                    filters: props.filters ?? 'version:latest'
+                    filters: props.filters ?? 'version:latest',
+                    facetFilters: `section:${currentSection}`
+                  },
+                },
+                {
+                  indexName: props.indexName,
+                  query,
+                  params: {
+                    hitsPerPage: MAX_RESULTS,
+                    attributesToSnippet: ['content:35'],
+                    attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
+                    filters: props.filters ?? 'version:latest',
+                    facetFilters: `section:-${currentSection}`,
                   },
                 },
               ],
@@ -84,7 +111,7 @@ function Autocomplete(props: any) {
 
                 return [
                   getStableGroups(
-                    resp.hits[0], 
+                    resp.hits.flat(), 
                     'hierarchy.lvl0'
                   )
                   .sort((a, b) => {
