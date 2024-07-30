@@ -42,89 +42,6 @@ const collapseResults = (() => {
 const NavigateContext = createContext((...props: any[]) => { throw new Error('The navigate function has not been initialized yet.') });
 export const useNavigate = () => useContext(NavigateContext);
 
-function getResults({ query, props, section }: { query: string, props: any, section?: string }) {
-  return getAlgoliaResults({
-    searchClient: props.searchClient,
-    queries: [
-      {
-        indexName: props.indexName,
-        query,
-        params: {
-          hitsPerPage: MAX_RESULTS,
-          attributesToSnippet: ['content:35'],
-          attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
-          filters: props.filters ?? 'version:latest',
-          facetFilters: `section:${section}`,
-        },
-      },
-      {
-        indexName: props.indexName,
-        query,
-        params: {
-          hitsPerPage: MAX_RESULTS,
-          attributesToSnippet: ['content:35'],
-          attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
-          filters: props.filters ?? 'version:latest',
-          facetFilters: `section:-${section}`,
-        },
-      },
-    ],
-    transformResponse(resp) {
-      // make the text in the panel selectable by removing the onmousedown event
-      let dom = document.querySelector('.aa-Panel') as any;
-      if(dom) {
-        setProperty(dom, 'onmousedown', () => {});
-        setProperty(dom, 'onmouseout', () => {});
-      }
-
-      return [
-        getStableGroups(
-          resp.hits.flat(), 
-          'hierarchy.lvl0'
-        )
-        .sort((a, b) => {
-          const pathnameA = (new URL(a[0].url)).pathname;
-          const pathnameB = (new URL(b[0].url)).pathname;
-
-          let { location: { pathname } } = window;
-
-          if(['/', ''].includes(pathname)) {
-            pathname = '/academy';
-          }
-
-          const getLongestCommonPrefix = (a: string, b: string) => {
-            return a.split('/').filter(Boolean).reduce((acc, curr, i) => {
-              if (curr === b.split('/').filter(Boolean)[i]) {
-                return acc + curr + '/';
-              }
-              return acc;
-            }, '');
-          };
-
-          const isTheSameLang = (a: string, b: string) => Number(['js', 'python'].some(lang => (a.includes(lang) && b.includes(lang))));
-          
-          return getLongestCommonPrefix(pathnameB, pathname).length + 20 * isTheSameLang(pathnameB, pathname) - getLongestCommonPrefix(pathnameA, pathname).length - 20 * isTheSameLang(pathnameA, pathname);
-        }).map(
-          (items: any) => getStableGroups(items, 'hierarchy.lvl1').map(items => (
-            items.sort((a: any, b: any) => {
-              return Object.values(a.hierarchy).filter(val => val).length - Object.values(b.hierarchy).filter(val => val).length;
-            })
-          )).flat()
-        ).flat()
-        // .filter((item: any, i: number, a: any[]) => {
-
-        //   const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
-    
-        //   // show the item only if:
-        //   return item?._highlightResult.content.matchLevel === 'full' // the query is a substring of the "content"
-        //   || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full' // the query is a substring of the last item in the "hierarchy" (i.e the retrieved article/heading "name")
-        //   || a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)); // the item is a child of the previous item
-        // }),
-      ];
-    }
-  });
-}
-
 function Autocomplete(props: any) {
   const containerRef = useRef<any>(null);
   const setOpen = useCallback((open: boolean) => {
@@ -155,8 +72,89 @@ function Autocomplete(props: any) {
       getSources: ({ query }: { query: string }) => [
         {
           sourceId: 'products',
-          getItems: async () => {
-            return getResults({ query, props, section: getCurrentSectionTag(window.location.pathname) });
+          getItems() {
+            const currentSection = getCurrentSectionTag(window.location.pathname);
+
+            return getAlgoliaResults({
+              searchClient: props.searchClient,
+              queries: [
+                {
+                  indexName: props.indexName,
+                  query,
+                  params: {
+                    hitsPerPage: MAX_RESULTS,
+                    attributesToSnippet: ['content:35'],
+                    attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
+                    filters: props.filters ?? 'version:latest',
+                    facetFilters: `section:${currentSection}`
+                  },
+                },
+                {
+                  indexName: props.indexName,
+                  query,
+                  params: {
+                    hitsPerPage: MAX_RESULTS,
+                    attributesToSnippet: ['content:35'],
+                    attributesToRetrieve: ['content', 'hierarchy', 'toc', 'url', 'breadcrumbs'],
+                    filters: props.filters ?? 'version:latest',
+                    facetFilters: `section:-${currentSection}`,
+                  },
+                },
+              ],
+              transformResponse(resp) {
+                // make the text in the panel selectable by removing the onmousedown event
+                let dom = document.querySelector('.aa-Panel') as any;
+                if(dom) {
+                  setProperty(dom, 'onmousedown', () => {});
+                  setProperty(dom, 'onmouseout', () => {});
+                }
+
+                return [
+                  getStableGroups(
+                    resp.hits.flat(), 
+                    'hierarchy.lvl0'
+                  )
+                  .sort((a, b) => {
+                    const pathnameA = (new URL(a[0].url)).pathname;
+                    const pathnameB = (new URL(b[0].url)).pathname;
+    
+                    let { location: { pathname } } = window;
+    
+                    if(['/', ''].includes(pathname)) {
+                      pathname = '/academy';
+                    }
+    
+                    const getLongestCommonPrefix = (a: string, b: string) => {
+                      return a.split('/').filter(Boolean).reduce((acc, curr, i) => {
+                        if (curr === b.split('/').filter(Boolean)[i]) {
+                          return acc + curr + '/';
+                        }
+                        return acc;
+                      }, '');
+                    };
+    
+                    const isTheSameLang = (a: string, b: string) => Number(['js', 'python'].some(lang => (a.includes(lang) && b.includes(lang))));
+                    
+                    return getLongestCommonPrefix(pathnameB, pathname).length + 20 * isTheSameLang(pathnameB, pathname) - getLongestCommonPrefix(pathnameA, pathname).length - 20 * isTheSameLang(pathnameA, pathname);
+                  }).map(
+                    (items: any) => getStableGroups(items, 'hierarchy.lvl1').map(items => (
+                      items.sort((a: any, b: any) => {
+                        return Object.values(a.hierarchy).filter(val => val).length - Object.values(b.hierarchy).filter(val => val).length;
+                      })
+                    )).flat()
+                  ).flat()
+                  // .filter((item: any, i: number, a: any[]) => {
+
+                  //   const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
+              
+                  //   // show the item only if:
+                  //   return item?._highlightResult.content.matchLevel === 'full' // the query is a substring of the "content"
+                  //   || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full' // the query is a substring of the last item in the "hierarchy" (i.e the retrieved article/heading "name")
+                  //   || a.slice(0, i).some((x: any) => (countFamily(x, item) === 2)); // the item is a child of the previous item
+                  // }),
+                ];
+              }
+            });
           },
           getItemUrl({ item }: { item: any }) {
             return item.url;
