@@ -121,7 +121,7 @@ function Autocomplete(props: any) {
                     let { location: { pathname } } = window;
     
                     if(['/', ''].includes(pathname)) {
-                      pathname = '/academy';
+                      pathname = '/platform';
                     }
     
                     const getLongestCommonPrefix = (a: string, b: string) => {
