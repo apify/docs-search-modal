@@ -10,7 +10,7 @@ import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
 import { ResultsItems } from './ResultsItems';
-import { render } from 'react-dom';
+import { createRoot, type Root } from 'react-dom/client';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { SearchIcon, ControlKeyIcon } from '../utils/icons';
 
@@ -42,6 +42,21 @@ const collapseResults = (() => {
 const NavigateContext = createContext((...props: any[]) => { throw new Error('The navigate function has not been initialized yet.') });
 export const useNavigate = () => useContext(NavigateContext);
 
+const renderingRoots = {
+  domRoot: null as HTMLElement | null,
+  reactRoot: null as Root | null,
+}
+
+function createOrGetRoot(domRoot: HTMLElement): Root {
+  if (renderingRoots.domRoot !== domRoot) {
+    renderingRoots.domRoot = domRoot;
+    renderingRoots.reactRoot = createRoot(domRoot);
+  }
+
+  return renderingRoots.reactRoot!;
+}
+
+
 function Autocomplete(props: any) {
   const containerRef = useRef<any>(null);
   const setOpen = useCallback((open: boolean) => {
@@ -59,7 +74,7 @@ function Autocomplete(props: any) {
 
     const search = autocomplete({
       container: containerRef.current,
-      renderer: { createElement, Fragment, render },
+      renderer: { createElement, Fragment },
       detachedMediaQuery: '',
       defaultActiveItemId: 0,
       placeholder: 'Search Apify Docs...',
@@ -167,14 +182,16 @@ function Autocomplete(props: any) {
           }
         },
       ],
-      render({ state, components, Fragment, setContext, setActiveItemId, render }, root) {
+      render({ state, components, Fragment, setContext, setActiveItemId }, domRoot) {
+        const root = createOrGetRoot(domRoot);
+
         if (state?.query?.length > 0) {
           collapseResults.show();
 
           let { preview } = state.context as any;
           preview = {...preview, name: getTitle(preview)}
 
-          return render (
+          return root.render (
             <Fragment>
               <NavigateContext.Provider value={props.navigate}>
                 <div className="flex flex-col h-full bg-white dark:bg-slate-800">
@@ -198,13 +215,13 @@ function Autocomplete(props: any) {
                 </div>
               </NavigateContext.Provider>
               </Fragment>
-          , root);
+          );
         } else {
           collapseResults.hide();
 
-          return render (
+          return root.render (
             <Fragment></Fragment>
-          , root);
+          );
         }
       },
       ...props,
