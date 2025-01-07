@@ -74,7 +74,7 @@ function Autocomplete(props: any) {
 
     const search = autocomplete({
       container: containerRef.current,
-      renderer: { createElement, Fragment },
+      renderer: { createElement, Fragment, render: () => {} },
       detachedMediaQuery: '',
       defaultActiveItemId: 0,
       placeholder: 'Search Apify Docs...',
@@ -91,10 +91,10 @@ function Autocomplete(props: any) {
             const currentSection = getCurrentSectionTag(window.location.pathname);
 
             return getAlgoliaResults({
-              searchClient: props.searchClient,
+              searchClient: props.searchclient,
               queries: [
                 {
-                  indexName: props.indexName,
+                  indexName: props.indexname,
                   query,
                   params: {
                     hitsPerPage: MAX_RESULTS,
@@ -105,7 +105,7 @@ function Autocomplete(props: any) {
                   },
                 },
                 {
-                  indexName: props.indexName,
+                  indexName: props.indexname,
                   query,
                   params: {
                     hitsPerPage: MAX_RESULTS,
@@ -311,8 +311,8 @@ export function ApifySearch({
   return (
     <div className={`searchbar-container ${className ?? ''}`} style={style ?? {}}>
       <Autocomplete 
-        searchClient={searchClient}
-        indexName={algoliaIndexName}
+        searchclient={searchClient}
+        indexname={algoliaIndexName}
         filters={filters}
         {...props}
       />
