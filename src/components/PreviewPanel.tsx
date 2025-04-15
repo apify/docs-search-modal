@@ -2,35 +2,8 @@ import { decode } from "html-entities";
 
 import { Breadcrumbs } from "./Breadcrumbs";
 
-// @ts-ignore
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-// @ts-ignore
-import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
-// @ts-ignore
-import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
-// @ts-ignore
-import prism from 'react-syntax-highlighter/dist/esm/styles/prism/prism';
-// @ts-ignore
-import darcula from 'react-syntax-highlighter/dist/esm/styles/prism/darcula';
-// @ts-ignore
-import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
-// @ts-ignore
-import docker from 'react-syntax-highlighter/dist/esm/languages/prism/docker';
-// @ts-ignore
-import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
-// @ts-ignore
-import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import { useNavigate } from "./ApifySearch";
-
-SyntaxHighlighter.registerLanguage('js', javascript);
-SyntaxHighlighter.registerLanguage('javascript', javascript);
-SyntaxHighlighter.registerLanguage('json', json);
-SyntaxHighlighter.registerLanguage('bash', bash);
-SyntaxHighlighter.registerLanguage('shell', bash);
-SyntaxHighlighter.registerLanguage('python', python);
-SyntaxHighlighter.registerLanguage('py', python);
-SyntaxHighlighter.registerLanguage('docker', docker);
-SyntaxHighlighter.registerLanguage('yaml', yaml);
+import { CodeBlock } from "@apify/ui-library";
 
 /**
  * Splits the markdown formatted content into blocks of text and code (delimited by ```).
@@ -95,22 +68,16 @@ export function PreviewPanel({ preview, components }: { preview: any, components
                   })
                 }</p>
               } else {
-                return <div className='mb-3 px-3 bg-slate-100 dark:bg-slate-800 py-3 rounded-l box-border' key={i}>
-                  <code className="select-all border-none p-0 hover:cursor-default" onClick={(e) => { e.stopPropagation() }}>
-                    <SyntaxHighlighter 
-                      language={block.lang} 
-                      style={ document.querySelector('[data-theme="dark"]') ? darcula : prism } 
-                      customStyle={{
-                        background: 'rgba(0,0,0,0)', 
-                        padding: '0px', 
-                        margin : '0px', 
-                        border: '0px',
-                        boxShadow: 'none',
-                        paddingBottom: '5px'
-                      }}>    
-                      {block.value}
-                    </SyntaxHighlighter>
-                  </code>
+                return <div 
+                  className='mb-3 bg-slate-100 dark:bg-slate-800 rounded-l box-border' 
+                  key={i} 
+                  onClick={(e) => e.stopPropagation()}
+                >
+                    <CodeBlock
+                      content={block.value}
+                      language={block.lang}
+                      hideLineNumbers={true}
+                    />
                 </div>
               }
             })

@@ -1,6 +1,4 @@
 import { createElement, Fragment, useEffect, useRef, useMemo, createContext, useContext, useState, useCallback } from 'react';
-import { Footer } from './Footer';
-import { PreviewPanel } from './PreviewPanel';
 import { getTitle } from '../utils/getTitle';
 import { getStableGroups } from '../utils/getStableGroups';
 
@@ -9,10 +7,10 @@ import { setProperty } from '@algolia/autocomplete-js/dist/esm/utils/setProperti
 import algoliasearch from 'algoliasearch/lite';
 
 import '@algolia/autocomplete-theme-classic';
-import { ResultsItems } from './ResultsItems';
 import { createRoot, type Root } from 'react-dom/client';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { SearchIcon, ControlKeyIcon } from '../utils/icons';
+import { Modal } from './Modal';
 
 const pathPrefixToSectionTag = {
   "/api/client/js": "apify-client-js",
@@ -194,25 +192,13 @@ function Autocomplete(props: any) {
           return root.render (
             <Fragment>
               <NavigateContext.Provider value={props.navigate}>
-                <div className="flex flex-col h-full bg-white dark:bg-slate-800">
-                    {
-                    state.collections[0].items.length === 0 ? (
-                      <div className="flex flex-col justify-center items-center flex-1">
-                          <div className='text-slate-400 font-medium text-lg px-3 py-1'>
-                            No results :(
-                          </div>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 flex-1 overflow-hidden">
-                        <div className="h-full overflow-y-scroll resultsItems">
-                          <ResultsItems {...{items: state?.collections?.[0]?.items, setActiveItemId, setContext, state, components }} />
-                        </div>
-                        <PreviewPanel preview={preview} components={components} />
-                      </div>
-                    )
-                  }
-                  <Footer />
-                </div>
+                <Modal
+                  state={state}
+                  setActiveItemId={setActiveItemId}
+                  setContext={setContext}
+                  components={components}
+                  preview={preview} 
+                />
               </NavigateContext.Provider>
               </Fragment>
           );
