@@ -1,6 +1,6 @@
 {
   "name": "@apify/docs-search-modal",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A custom implementation of the modal search for Apify Docs.",
   "author": "Jindřich Bär",
   "license": "ISC",
