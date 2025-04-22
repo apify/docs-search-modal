@@ -15,8 +15,8 @@ export function Modal({state, setActiveItemId, setContext, components, preview}:
         <UiDependencyProvider
             dependencies={
                 {
-                    InternalImage: (() => console.warn(getWarningMessage('InternalImage'))) as any,
-                    InternalLink: (() => console.warn(getWarningMessage('InternalLink'))) as any,
+                    InternalImage: (() => { console.warn(getWarningMessage('InternalImage')); return null; }) as any,
+                    InternalLink: (() => { console.warn(getWarningMessage('InternalLink')); return null; }) as any,
                     isHrefTrusted: (() => {console.warn(getWarningMessage('isHrefTrusted')); return true}) as any,
                     windowLocationHost: window.location.host,
                     uiTheme: document.querySelector('[data-theme="dark"]') ? 'DARK' : 'LIGHT',
