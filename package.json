@@ -1,13 +1,13 @@
 {
   "name": "@apify/docs-search-modal",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A custom implementation of the modal search for Apify Docs.",
   "author": "Jindřich Bär",
   "license": "ISC",
   "dependencies": {
     "@algolia/autocomplete-js": "^1.10.0",
     "@algolia/autocomplete-theme-classic": "^1.10.0",
-    "@apify/ui-library": "^0.65.1",
+    "@apify/ui-library": "*",
     "algoliasearch": "^4.19.1",
     "html-entities": "^2.4.0",
     "react-hotkeys-hook": "^4.4.1",
