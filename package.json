@@ -7,7 +7,7 @@
   "dependencies": {
     "@algolia/autocomplete-js": "^1.10.0",
     "@algolia/autocomplete-theme-classic": "^1.10.0",
-    "@apify/ui-library": "^0.65.1",
+    "@apify/ui-library": "*",
     "algoliasearch": "^4.19.1",
     "html-entities": "^2.4.0",
     "react-hotkeys-hook": "^4.4.1",
