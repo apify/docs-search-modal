@@ -124,19 +124,19 @@ function Autocomplete(props: any) {
 
                 return [
                   getStableGroups(
-                    resp.hits.flat(), 
+                    resp.hits.flat(),
                     'hierarchy.lvl0'
                   )
                   .sort((a, b) => {
                     const pathnameA = (new URL(a[0].url)).pathname;
                     const pathnameB = (new URL(b[0].url)).pathname;
-    
+
                     let { location: { pathname } } = window;
-    
+
                     if(['/', ''].includes(pathname)) {
                       pathname = '/platform';
                     }
-    
+
                     const getLongestCommonPrefix = (a: string, b: string) => {
                       return a.split('/').filter(Boolean).reduce((acc, curr, i) => {
                         if (curr === b.split('/').filter(Boolean)[i]) {
@@ -145,9 +145,9 @@ function Autocomplete(props: any) {
                         return acc;
                       }, '');
                     };
-    
+
                     const isTheSameLang = (a: string, b: string) => Number(['js', 'python'].some(lang => (a.includes(lang) && b.includes(lang))));
-                    
+
                     return getLongestCommonPrefix(pathnameB, pathname).length + 20 * isTheSameLang(pathnameB, pathname) - getLongestCommonPrefix(pathnameA, pathname).length - 20 * isTheSameLang(pathnameA, pathname);
                   }).map(
                     (items: any) => getStableGroups(items, 'hierarchy.lvl1').map(items => (
@@ -159,7 +159,7 @@ function Autocomplete(props: any) {
                   // .filter((item: any, i: number, a: any[]) => {
 
                   //   const hierarchyMatches : any[] = Object.values(item?._highlightResult.hierarchy);
-              
+
                   //   // show the item only if:
                   //   return item?._highlightResult.content.matchLevel === 'full' // the query is a substring of the "content"
                   //   || hierarchyMatches[hierarchyMatches.length - 1].matchLevel === 'full' // the query is a substring of the last item in the "hierarchy" (i.e the retrieved article/heading "name")
@@ -197,7 +197,8 @@ function Autocomplete(props: any) {
                   setActiveItemId={setActiveItemId}
                   setContext={setContext}
                   components={components}
-                  preview={preview} 
+                  preview={preview}
+                  setOpen={setOpen}
                 />
               </NavigateContext.Provider>
               </Fragment>
@@ -296,7 +297,7 @@ export function ApifySearch({
 
   return (
     <div className={`searchbar-container ${className ?? ''}`} style={style ?? {}}>
-      <Autocomplete 
+      <Autocomplete
         searchclient={searchClient}
         indexname={algoliaIndexName}
         filters={filters}
