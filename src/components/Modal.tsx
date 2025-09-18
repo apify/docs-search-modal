@@ -2,15 +2,41 @@ import { UiDependencyProvider } from "@apify/ui-library";
 import { Footer } from "./Footer";
 import { PreviewPanel } from "./PreviewPanel";
 import { ResultsItems } from "./ResultsItems";
+import { useCallback, useEffect, useState } from "react";
 
 function getWarningMessage(methodName: string) {
     return `WATCH OUT! ${methodName} prop in @apify/docs-search-modal is not correctly implemented!
 If you're seeing this message, it means that you're using components that are trying to access
 ${methodName}, but the prop is not provided. This is a warning!`;
-    
+
 }
 
-export function Modal({state, setActiveItemId, setContext, components, preview}: { state: any, setActiveItemId: any, setContext: any, components: any, preview: any }) {
+function AskAITab({ currentQuery, setOpen }: { currentQuery?: any, setOpen: (open: boolean) => void }) {
+    const [isKapaAIAvailable, setKapaAIAvailable] = useState(true);
+
+    useEffect(() => {
+        if (!(window as any).Kapa) {
+            setKapaAIAvailable(false);
+        }
+    }, []);
+
+    const askKapaAI = useCallback(() => {
+        setOpen(false);
+        (window as any).Kapa.open({ query: currentQuery ?? '', submit: true });
+    }, [isKapaAIAvailable, currentQuery]);
+
+    return (
+            !isKapaAIAvailable ? null :
+            <button
+                onClick={askKapaAI}
+                style={{ padding: '10px', backgroundColor: 'rgb(234,88,12)', cursor: 'pointer' }}
+                className="absolute top-0 right-3 dark:bg-slate-700 text-white dark:text-white font-medium rounded-b-lg shadow-md hover:bg-orange-400 transition">
+                ✨ Ask AI
+            </button>
+    );
+}
+
+export function Modal({state, setActiveItemId, setContext, components, preview, setOpen}: { state: any, setActiveItemId: any, setContext: any, components: any, preview: any, setOpen: (open: boolean) => void }) {
     return (
         <UiDependencyProvider
             dependencies={
@@ -22,7 +48,11 @@ export function Modal({state, setActiveItemId, setContext, components, preview}:
                     uiTheme: document.querySelector('[data-theme="dark"]') ? 'DARK' : 'LIGHT',
                 }
             }
-            > <div className="flex flex-col h-full bg-white dark:bg-slate-800">
+            > <div className="flex flex-col h-full bg-white dark:bg-slate-800 relative">
+            <AskAITab
+                currentQuery={state.query}
+                setOpen={setOpen}
+            />
         {state.collections[0].items.length === 0 ? (
         <div className="flex flex-col justify-center items-center flex-1">
             <div className='text-slate-400 font-medium text-lg px-3 py-1'>
