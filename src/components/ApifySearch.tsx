@@ -10,7 +10,7 @@ import '@algolia/autocomplete-theme-classic';
 import { createRoot, type Root } from 'react-dom/client';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { SearchIcon, ControlKeyIcon } from '../utils/icons';
-import { Modal } from './Modal';
+import { AskAITab, Modal } from './Modal';
 
 const pathPrefixToSectionTag = {
   "/api/client/js": "apify-client-js",
@@ -192,16 +192,27 @@ function Autocomplete(props: any) {
           return root.render (
             <Fragment>
               <NavigateContext.Provider value={props.navigate}>
-                <Modal
-                  state={state}
-                  setActiveItemId={setActiveItemId}
-                  setContext={setContext}
-                  components={components}
-                  preview={preview}
+                <AskAITab
+                  currentQuery={state.query}
                   setOpen={setOpen}
                 />
+                <div
+                  style={{
+                    minHeight: '634px',
+                    height: 'calc(60vh - 64px)',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Modal
+                    state={state}
+                    setActiveItemId={setActiveItemId}
+                    setContext={setContext}
+                    components={components}
+                    preview={preview}
+                  />
+                </div>
               </NavigateContext.Provider>
-              </Fragment>
+            </Fragment>
           );
         } else {
           collapseResults.hide();

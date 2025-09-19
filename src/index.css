@@ -175,6 +175,25 @@ code {
   height: 100% !important;
 }
 
+.aa-Panel {
+  overflow: visible !important;
+}
+
+.kapa-ai-button {
+  right: 50px;
+  top: -48px;
+}
+
+.kapa-ai-button:hover {
+  background-color: rgb(249, 115, 22) !important;
+}
+
+@media screen and (max-width: 680px) {
+  .kapa-ai-button {
+    right: 95px;
+  }
+}
+
 mark {
   background-color: inherit !important;
   color: rgb(59 130 246) !important;
