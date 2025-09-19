@@ -196,13 +196,7 @@ function Autocomplete(props: any) {
                   currentQuery={state.query}
                   setOpen={setOpen}
                 />
-                <div
-                  style={{
-                    minHeight: '634px',
-                    height: 'calc(60vh - 64px)',
-                    overflow: 'hidden',
-                  }}
-                >
+                <div className='search-results-container'>
                   <Modal
                     state={state}
                     setActiveItemId={setActiveItemId}
