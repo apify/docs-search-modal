@@ -192,10 +192,6 @@ code {
   overflow: hidden;
 }
 
-.kapa-ai-button:hover {
-  background-color: rgb(249, 115, 22) !important;
-}
-
 @media screen and (max-width: 680px) {
   .kapa-ai-button {
     right: 95px;
