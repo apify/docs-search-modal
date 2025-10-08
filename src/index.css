@@ -4,6 +4,7 @@
 
 :root {
   --docsearch-primary-color: rgb(84, 104, 255);
+  --ifm-color-primary: #1672eb;
   --docsearch-text-color: rgb(28, 30, 33);
   --docsearch-spacing: 12px;
   --docsearch-icon-stroke-width: 1.4;
@@ -182,6 +183,7 @@ code {
 .kapa-ai-button {
   right: 50px;
   top: -48px;
+  background-color: var(--ifm-color-primary) !important;
 }
 
 .search-results-container {

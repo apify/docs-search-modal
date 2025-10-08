@@ -30,7 +30,7 @@ export function AskAITab({ currentQuery, setOpen }: { currentQuery?: any, setOpe
             <button
                 onClick={askKapaAI}
                 style={{ padding: '7px', backgroundColor: 'rgb(234,88,12)', cursor: 'pointer', zIndex: 10000 }}
-                className="absolute text-white dark:text-white font-medium rounded-md shadow-lg transition kapa-ai-button bg-orange-500">
+                className="absolute text-white dark:text-white font-medium rounded-md shadow-lg transition kapa-ai-button">
                 ✨ Ask AI
             </button>
     );
