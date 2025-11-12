@@ -1,0 +1,72 @@
+name: Build & Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The version to bump (if you choose custom, please include it under custom version)
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - "patch"
+          - "minor"
+          - "major"
+          - "custom"
+      custom_version:
+        description: The custom version to bump to (only for "custom" type)
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: write # Required to push updates
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          package-manager-cache: false
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Enable corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+
+      - name: Activate cache for Node.js
+        uses: actions/setup-node@v6
+        with:
+          cache: "yarn"
+
+      - name: Install Dependencies
+        run: yarn --immutable
+
+      - name: Build
+        run: yarn build
+
+      - name: Bump version to custom version
+        if: ${{ github.event.inputs.version == 'custom' && github.event.inputs.custom_version != '' }}
+        run: yarn version ${{ github.event.inputs.custom_version }}
+
+      - name: Bump version to ${{ github.event.inputs.version }} version
+        if: ${{ github.event.inputs.version != 'custom' }}
+        run: yarn version ${{ github.event.inputs.version }}
+
+      - name: Commit changes
+        id: commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Apify Release Bot
+          author_email: noreply@apify.com
+          message: "chore(release): Update package version [skip ci]"
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
