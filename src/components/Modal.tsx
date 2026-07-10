@@ -48,7 +48,7 @@ export function Modal({state, setActiveItemId, setContext, components, preview}:
                     uiTheme: document.querySelector('[data-theme="dark"]') ? 'DARK' : 'LIGHT',
                 }
             }
-            > <div className="flex flex-col h-full bg-white dark:bg-slate-800 relative">
+            > <div className="flex flex-col h-full bg-white dark:bg-apify-background relative">
         {state.collections[0].items.length === 0 ? (
         <div className="flex flex-col justify-center items-center flex-1">
             <div className='text-slate-400 font-medium text-lg px-3 py-1'>

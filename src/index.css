@@ -210,7 +210,7 @@ mark {
 }
 
 html[data-theme="dark"] mark {
-  color: #38bdf8 !important;
+  color: var(--color-primary-text, #38bdf8) !important;
 }
 
 .aa-Autocomplete {
@@ -219,7 +219,7 @@ html[data-theme="dark"] mark {
 
 html[data-theme="dark"] .aa-DetachedSearchButton {
   background: none !important;
-  border: 1px solid #7f8497 !important;
+  border: 1px solid var(--color-neutral-field-border, #7f8497) !important;
 }
 
 .aa-DetachedContainer--modal {
@@ -261,10 +261,10 @@ html[data-theme="dark"] .resultsItems a:hover {
 }
 
 html[data-theme="dark"] .aa-DetachedSearchButtonPlaceholder, html[data-theme="dark"] .aa-DetachedSearchButtonQuery, html[data-theme="dark"] .aa-SubmitIcon {
-  color: gainsboro !important;
+  color: var(--color-neutral-text-muted, gainsboro) !important;
 }
 html[data-theme="dark"] .aa-DetachedContainer {
-  background-color: #0d1a22 !important
+  background-color: var(--color-neutral-background, #0d1a22) !important
 }
 
 .aa-InputWrapper input {
@@ -279,12 +279,12 @@ html[data-theme="dark"] .aa-DetachedContainer {
 }
 
 html[data-theme="dark"] .aa-Form, html[data-theme="dark"] .aa-InputWrapper input {
-  background-color: #2e2f3a !important;
-  color: white !important;
+  background-color: var(--color-neutral-field-background, #2e2f3a) !important;
+  color: var(--color-neutral-text, white) !important;
 }
 
 html[data-theme="dark"] .aa-InputWrapper input ::placeholder, html[data-theme="dark"] .aa-DetachedCancelButton {
-  color: white !important;
+  color: var(--color-neutral-text-placeholder, white) !important;
 }
 
 .aa-DetachedCancelButton {

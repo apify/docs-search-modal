@@ -3,14 +3,14 @@ import { ArrowDownIcon, ArrowUpIcon, EnterIcon, EscapeIcon } from "../utils/icon
 function Tooltip() {
   return (
     <ul className="flex flex-row list-none space-x-3 mb-0 pl-0 mt-2">
-      <li className="space-x-2 text-slate-500 dark:text-slate-300 text-sm flex">
+      <li className="space-x-2 text-slate-500 dark:text-apify-text-muted text-sm flex">
         <kbd className="DocSearch-Button-Key">
           <EnterIcon />
         </kbd>
         <span className="DocSearch-Label">to select
       </span>
     </li>
-    <li className="space-x-2 text-slate-500 dark:text-slate-300 text-sm flex">
+    <li className="space-x-2 text-slate-500 dark:text-apify-text-muted text-sm flex">
       <span className="DocSearch-Button-Keys">
         <kbd className="DocSearch-Button-Key" >
           <ArrowUpIcon />
@@ -22,7 +22,7 @@ function Tooltip() {
       <span className="DocSearch-Label">to navigate
       </span>
     </li>
-    <li className="space-x-2 text-slate-500 dark:text-slate-300 text-sm flex">
+    <li className="space-x-2 text-slate-500 dark:text-apify-text-muted text-sm flex">
       <kbd className="DocSearch-Button-Key">
          <EscapeIcon />
       </kbd>
@@ -38,7 +38,7 @@ function Tooltip() {
   */
   export function Footer() {
     return (
-      <div className='hidden lg:block bg-white dark:bg-slate-900'>
+      <div className='hidden lg:block bg-white dark:bg-apify-background-muted'>
       <div className="flex flex-row justify-between h-16 w-full items-center px-5 shadow-inner">
         <Tooltip />
       </div>

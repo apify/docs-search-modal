@@ -38,7 +38,7 @@ function Toc( { items }: { items: TocItem[] } ) {
       { 
         items.map(( item, i ) => (
           <div style={{marginTop: '1em'}} key={i}>
-            <a href={item.href} className="text-slate-500 dark:text-slate-300">{i+1}. {item.title}</a>
+            <a href={item.href} className="text-slate-500 dark:text-apify-text-muted">{i+1}. {item.title}</a>
             { item.children && Toc({ items: item.children }) }
           </div>)
         )
@@ -51,25 +51,25 @@ export function PreviewPanel({ preview, components }: { preview: any, components
   const navigate = useNavigate();
 
   return (
-    <div className="h-full p-5 hidden lg:block bg-slate-50 dark:bg-slate-700 shadow-inner overflow-y-scroll">
+    <div className="h-full p-5 hidden lg:block bg-slate-50 dark:bg-apify-background-muted shadow-inner overflow-y-scroll">
       <Breadcrumbs key="breadcrumbs" item={preview} highlight={components.Highlight} />
       <div className="hover:cursor-pointer" onClick={() => navigate(preview.url)}>
-        <div key="title" className='w-full text-center text-slate-800 dark:text-slate-100 text-2xl p-7 font-semibold'>
+        <div key="title" className='w-full text-center text-slate-800 dark:text-apify-text text-2xl p-7 font-semibold'>
           <components.Highlight hit={preview} attribute={["name"]} />
         </div>
-        <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-slate-200 border-none border-b-solid border-b-2 border-b-neutral-200  leading-6">
+        <div key="preview" className="px-6 pb-6 text-slate-600 dark:text-apify-text-muted border-none border-b-solid border-b-2 border-b-neutral-200  leading-6">
           {
             parseIntoBlocks(preview.content).map((block: any, i: number) => {
               if(block.type === 'text') {
                 return <p className='mb-3' key={i}>{
                   block.value.split('`').map((x: string, i: number) => {
                     if(i % 2 === 0) return <span key={i} className="inline">{x}</span>;
-                    return <code key={i} className='bg-slate-200 dark:bg-slate-600 px-1 py-0.5 mx-0.5 rounded inline'>{x}</code>
+                    return <code key={i} className='bg-slate-200 dark:bg-apify-background-subtle px-1 py-0.5 mx-0.5 rounded inline'>{x}</code>
                   })
                 }</p>
               } else {
                 return <div 
-                  className='mb-3 bg-slate-100 dark:bg-slate-800 rounded-l box-border' 
+                  className='mb-3 bg-slate-100 dark:bg-apify-background rounded-l box-border' 
                   key={i} 
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -88,7 +88,7 @@ export function PreviewPanel({ preview, components }: { preview: any, components
         (preview.toc?.length) && (preview.toc.length > 0) ?
         (
         <div className='px-6' key="toc">
-            <div className='text-slate-600 dark:text-slate-200 font-normal'>
+            <div className='text-slate-600 dark:text-apify-text-muted font-normal'>
               On this page:
             </div>
             <Toc items={preview.toc} />
