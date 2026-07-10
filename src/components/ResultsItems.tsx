@@ -22,8 +22,8 @@ function ResultsItem({ item, components, className, onMouseMove, isActive }: { i
     return (
       <a 
         className={`
-          hover:cursor-pointer aa-ItemLink dark:text-white 
-          ${isActive ? 'dark:bg-slate-700 bg-slate-100 text-blue-400' : 'dark:bg-slate-800 bg-white'}  
+          hover:cursor-pointer aa-ItemLink dark:text-apify-text
+          ${isActive ? 'dark:bg-apify-background-subtle bg-slate-100 text-blue-400' : 'dark:bg-apify-background bg-white'}
         ${className}`} 
         style={{color: isActive ? 'rgb(96 165 250)' : undefined}}
         href={item.url} 
@@ -55,7 +55,7 @@ export function ResultsItems({ items, setActiveItemId, setContext, components, s
   return items?.map((item: any, i: number, a: any[]) => (
       <div key={item.objectID}>
         {((a?.[i-1]?.hierarchy as any)?.lvl0 !== (item?.hierarchy as any)?.lvl0 &&
-        <div key='heading' className='text-white bg-blue-400 dark:bg-sky-700 font-bold px-3 py-1' style={{fontSize: "13.6px", lineHeight: '18px'}}>
+        <div key='heading' className='text-white bg-blue-400 dark:bg-apify-primary-action font-bold px-3 py-1' style={{fontSize: "13.6px", lineHeight: '18px'}}>
           {(item?.hierarchy as any)?.lvl0}
         </div>
         )}

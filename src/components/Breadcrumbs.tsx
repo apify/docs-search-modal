@@ -27,7 +27,7 @@ export function Breadcrumbs({ item, highlight }: any) {
           return (<span style={{color: 'slategray'}} className="breadcrumbs__item" key={index.toString()}>
             {
               decode(b.value).startsWith('/v') ?
-              (<code className="bg-gray-100 dark:bg-slate-900 rounded-md px-1">
+              (<code className="bg-gray-100 dark:bg-apify-background-subtle rounded-md px-1">
                 {highlight({hit: { value: b.value ? decode(b.value) : '' }, attribute: 'value'})}
               </code>) :
               (<span>
