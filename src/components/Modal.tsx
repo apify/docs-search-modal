@@ -46,6 +46,7 @@ export function Modal({state, setActiveItemId, setContext, components, preview}:
                     isHrefTrusted: (() => {console.warn(getWarningMessage('isHrefTrusted')); return true}) as any,
                     windowLocationHost: window.location.host,
                     uiTheme: document.querySelector('[data-theme="dark"]') ? 'DARK' : 'LIGHT',
+                    tooltipSafeHtml: (content) => content,
                 }
             }
             > <div className="flex flex-col h-full bg-white dark:bg-apify-background relative">
